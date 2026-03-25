@@ -1,0 +1,6 @@
+pandas
+sqlalchemy
+psycopg2-binary
+alpha_vantage
+yfinance
+dbt-postgres

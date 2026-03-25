@@ -1,0 +1,30 @@
+[2026-03-24T15:33:11.160+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: stock_pipeline.fetch_and_store manual__2026-03-24T15:33:10.690769+00:00 [queued]>
+[2026-03-24T15:33:11.164+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: stock_pipeline.fetch_and_store manual__2026-03-24T15:33:10.690769+00:00 [queued]>
+[2026-03-24T15:33:11.164+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 3
+[2026-03-24T15:33:11.169+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): fetch_and_store> on 2026-03-24 15:33:10.690769+00:00
+[2026-03-24T15:33:11.170+0000] {standard_task_runner.py:57} INFO - Started process 239 to run task
+[2026-03-24T15:33:11.172+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'stock_pipeline', 'fetch_and_store', 'manual__2026-03-24T15:33:10.690769+00:00', '--job-id', '2', '--raw', '--subdir', 'DAGS_FOLDER/stocks_pipeline_dag.py', '--cfg-path', '/tmp/tmptusn1zkb']
+[2026-03-24T15:33:11.174+0000] {standard_task_runner.py:85} INFO - Job 2: Subtask fetch_and_store
+[2026-03-24T15:33:11.197+0000] {task_command.py:416} INFO - Running <TaskInstance: stock_pipeline.fetch_and_store manual__2026-03-24T15:33:10.690769+00:00 [running]> on host 922a27ad0dc6
+[2026-03-24T15:33:11.229+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='stock_pipeline' AIRFLOW_CTX_TASK_ID='fetch_and_store' AIRFLOW_CTX_EXECUTION_DATE='2026-03-24T15:33:10.690769+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-24T15:33:10.690769+00:00'
+[2026-03-24T15:33:11.230+0000] {logging_mixin.py:154} INFO - Fetching CRWD, attempt 1...
+[2026-03-24T15:33:26.644+0000] {logging_mixin.py:154} INFO - Fetching PLTR, attempt 1...
+[2026-03-24T15:33:26.932+0000] {taskinstance.py:1937} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/stocks_pipeline_dag.py", line 30, in fetch_and_store
+    insert_to_postgres(df)
+  File "/opt/stocks-proj/ingestion/fetch_stocks.py", line 92, in insert_to_postgres
+    execute_values(cur, sql, records)
+  File "/home/airflow/.local/lib/python3.8/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.InvalidColumnReference: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+[2026-03-24T15:33:26.941+0000] {taskinstance.py:1400} INFO - Marking task as UP_FOR_RETRY. dag_id=stock_pipeline, task_id=fetch_and_store, execution_date=20260324T153310, start_date=20260324T153311, end_date=20260324T153326
+[2026-03-24T15:33:26.948+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 2 for task fetch_and_store (there is no unique or exclusion constraint matching the ON CONFLICT specification
+; 239)
+[2026-03-24T15:33:26.992+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-03-24T15:33:27.005+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
